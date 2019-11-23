@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -30,7 +31,7 @@ public class WhackAMoleWidget extends JPanel implements TimerObserver,ActionList
 	{
 		JPanel molePanel = new JPanel();
 		score = new ScoreWidget();
-		timer = new TimerWidget(20);
+		timer = new TimerWidget(30);
 		moles = new ArrayList<Mole>();
 		timer.addTimerObserver(this);
 		GridLayout layout = new GridLayout(4,4);
@@ -40,7 +41,7 @@ public class WhackAMoleWidget extends JPanel implements TimerObserver,ActionList
 		for(int i=0; i < 16; i++)
 		{
 			
-			MoleImpl mole = new MoleImpl(3 + (int)(Math.random() * 2), 3 + (int)(Math.random() * 3) ,6 + (int)(Math.random() * 4));
+			MoleImpl mole = new MoleImpl(1 + (int)(Math.random() * 2), 3 + (int)(Math.random() * 2) ,6 + (int)(Math.random() * 2));
 			molePanel.add(mole);
 			mole.addMoleObserver(score);
 			moles.add(mole);
@@ -50,6 +51,9 @@ public class WhackAMoleWidget extends JPanel implements TimerObserver,ActionList
 		startButton = new JButton("Start");
 		startButton.addActionListener(this);
 		startButton.setFont(new Font("Tahoma", Font.PLAIN, 23));
+		startButton.setBackground(Color.BLACK);
+		startButton.setForeground(Color.WHITE);
+		startButton.setFocusPainted(false);
 		startButton.setBounds(132, 219, 203, 53);
 		startButton.addActionListener(timer);
 		startButton.addActionListener(this);
@@ -83,7 +87,7 @@ public class WhackAMoleWidget extends JPanel implements TimerObserver,ActionList
 		for(Mole mole : moles)
 			mole.stop();
 		running = false;
-		JOptionPane.showMessageDialog(null, "Your Score is:  " + score.getScore());
+		JOptionPane.showMessageDialog(null, "Your Score is: " + score.getScore() + "!\n Press Start to play again.");
 		
 	}
 

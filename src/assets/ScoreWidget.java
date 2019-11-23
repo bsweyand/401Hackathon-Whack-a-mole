@@ -2,6 +2,8 @@ package assets;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Color;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.FlowLayout;
@@ -16,7 +18,7 @@ public class ScoreWidget extends JPanel implements MoleObserver{
 	 */
 	public ScoreWidget() {
 		setLayout(new BorderLayout(0, 0));
-		
+		setBackground(Color.WHITE);
 		JLabel lblScore = new JLabel("Score:");
 		lblScore.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		add(lblScore, BorderLayout.WEST);
@@ -33,12 +35,18 @@ public class ScoreWidget extends JPanel implements MoleObserver{
 		return score;
 	}
 	
+	/**
+	 * sets the score back to zero and resets score label
+	 */
 	public void reset()
 	{
 		score = 0;
 		scoreLabel.setText("0");
 	}
-	//update the score using the score passed in
+	
+	/** 
+	 * update the score using the score passed in
+	 */
 	@Override
 	synchronized public void update(int score) {
 		this.score += score;

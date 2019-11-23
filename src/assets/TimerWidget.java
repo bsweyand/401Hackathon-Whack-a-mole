@@ -6,6 +6,7 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -27,6 +28,7 @@ public class TimerWidget extends JPanel implements ActionListener{
 	private Timer timer;
 	public TimerWidget(int seconds) {
 		setLayout(new BorderLayout());
+		setBackground(Color.WHITE);
 		
 		//create observer list and timer label
 		observers = new ArrayList<TimerObserver>();
@@ -38,26 +40,22 @@ public class TimerWidget extends JPanel implements ActionListener{
 		
 		this.seconds = seconds;
 		initialSeconds = seconds;
-		
-		/*create start button
-		startButton = new JButton("Start");
-		startButton.addActionListener(this);
-		startButton.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		startButton.setBounds(132, 219, 203, 53);
-		add(startButton);*/
 
 	}
 	
+	//Add observer for timeout
 	public void addTimerObserver(TimerObserver observer)
 	{
 		observers.add(observer);
 	}
 	
+	//remove observer for timeout
 	public void removeTimerObserver(TimerObserver observer)
 	{
 		observers.remove(observer);
 	}
 	
+	//notify all observers of timeout
 	public void notifyObservers()
 	{
 		for(TimerObserver observer : observers)
@@ -66,7 +64,7 @@ public class TimerWidget extends JPanel implements ActionListener{
 	
 	/**
 	 * adds action listener to the button in the widget
-	 * @param actionListener
+	 * @param actionListener - the actionlistener to add
 	 */
 	public void addActionListener(ActionListener actionListener)
 	{

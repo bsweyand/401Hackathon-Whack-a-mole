@@ -22,7 +22,7 @@ public class MoleImpl extends JPanel implements Mole, Runnable, MouseListener{
 	private double maxWaitTime;
 	private boolean isUp;
 	private boolean gameRunning;
-	private final String IMAGE_PATH = "/mole.png";
+	private final String IMAGE_PATH = "/moleimg.png";
 	private List<MoleObserver> observers;
 	JLabel picture;
 	Thread thread;
@@ -35,8 +35,9 @@ public class MoleImpl extends JPanel implements Mole, Runnable, MouseListener{
 		
 		try {
 		setLayout(new BorderLayout());
-		setBackground(Color.WHITE);
+		setBackground(Color.decode("#34eb95"));
 		
+		//load picture from path
 		BufferedImage myPicture = ImageIO.read(getClass().getResource(IMAGE_PATH));
 		picture = new JLabel(new ImageIcon(myPicture));
 		add(picture, BorderLayout.CENTER);
@@ -65,17 +66,24 @@ public class MoleImpl extends JPanel implements Mole, Runnable, MouseListener{
 		observers.remove(observer);
 	}
 	
+	/**
+	 * returns true if mole is up
+	 */
 	@Override
 	public boolean isUp() {
 		return isUp;
 	}
-
+	
+	/**
+	 * shows mole icon and set isUp flag to true
+	 */
 	@Override
 	public void popUp() {
 		isUp = true;
 		picture.setVisible(true);
 		
 	}
+	
 	
 	@Override
 	public void hide()
@@ -119,13 +127,15 @@ public class MoleImpl extends JPanel implements Mole, Runnable, MouseListener{
 		}
 		
 	}
-
+	
+	//stops the thread responsible for popping up and hiding the mole and sets gameRunning flag to false
 	@Override
 	public void stop() {
 		gameRunning = false;
 		thread.interrupt();
 	}
 	
+	//notify observers given a passed in score
 	public void notifyObservers(int score)
 	{
 		for(MoleObserver observer : observers)
@@ -136,7 +146,8 @@ public class MoleImpl extends JPanel implements Mole, Runnable, MouseListener{
 	public void mouseClicked(MouseEvent e) {
 	
 	}
-
+	
+	//notifies observers based on whether or not the mole is up. Negative points are received if the mole is down
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if(gameRunning) {
