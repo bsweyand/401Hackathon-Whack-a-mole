@@ -8,8 +8,9 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
-public class ScoreWidget extends JPanel {
-
+public class ScoreWidget extends JPanel implements MoleObserver{
+	private int score;
+	JLabel scoreLabel;
 	/**
 	 * Create the panel.
 	 */
@@ -20,11 +21,29 @@ public class ScoreWidget extends JPanel {
 		lblScore.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		add(lblScore, BorderLayout.WEST);
 		
-		JLabel lblNewLabel = new JLabel("0");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		add(lblNewLabel, BorderLayout.CENTER);
+		scoreLabel = new JLabel("0");
+		scoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		scoreLabel.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		add(scoreLabel, BorderLayout.CENTER);
 
+	}
+	
+	public int getScore()
+	{
+		return score;
+	}
+	
+	public void reset()
+	{
+		score = 0;
+		scoreLabel.setText("0");
+	}
+	//update the score using the score passed in
+	@Override
+	synchronized public void update(int score) {
+		this.score += score;
+		scoreLabel.setText(Integer.toString(this.score));
+		
 	}
 
 }

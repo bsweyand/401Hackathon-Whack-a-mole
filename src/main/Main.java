@@ -15,7 +15,7 @@ public class Main {
 		JFrame frame = new JFrame("Whack-a-mole");
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setPreferredSize(new Dimension(600,600));
+		frame.setPreferredSize(new Dimension(750,780));
 		frame.setResizable(false);
 		frame.setContentPane(new WhackAMoleWidget());
 		frame.pack();

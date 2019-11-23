@@ -9,49 +9,100 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
-public class TimerWidget extends JPanel {
+public class TimerWidget extends JPanel implements ActionListener{
 
+	private JButton startButton;
+	private boolean running = false;
 	/**
 	 * Create the panel.
 	 */
-	public TimerWidget() {
+	private List<TimerObserver> observers;
+	private int seconds;
+	private int initialSeconds;
+	private JLabel timerLabel;
+	private Timer timer;
+	public TimerWidget(int seconds) {
 		setLayout(new BorderLayout());
 		
-		JLabel timerLabel = new JLabel("60");
+		//create observer list and timer label
+		observers = new ArrayList<TimerObserver>();
+		timerLabel = new JLabel(Integer.toString(seconds) + " seconds left");
 		timerLabel.setBounds(44, 84, 373, 110);
 		timerLabel.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		timerLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		add(timerLabel, BorderLayout.NORTH);
 		
-		JButton startButton = new JButton("Start");
-		startButton.addActionListener(new ActionListener() {
+		this.seconds = seconds;
+		initialSeconds = seconds;
+		
+		/*create start button
+		startButton = new JButton("Start");
+		startButton.addActionListener(this);
+		startButton.setFont(new Font("Tahoma", Font.PLAIN, 23));
+		startButton.setBounds(132, 219, 203, 53);
+		add(startButton);*/
 
+	}
+	
+	public void addTimerObserver(TimerObserver observer)
+	{
+		observers.add(observer);
+	}
+	
+	public void removeTimerObserver(TimerObserver observer)
+	{
+		observers.remove(observer);
+	}
+	
+	public void notifyObservers()
+	{
+		for(TimerObserver observer : observers)
+			observer.timeOut();
+	}
+	
+	/**
+	 * adds action listener to the button in the widget
+	 * @param actionListener
+	 */
+	public void addActionListener(ActionListener actionListener)
+	{
+		startButton.addActionListener(actionListener);
+	}
 
-			int i = 60;
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Timer t = new Timer(1000, new ActionListener() {
-
+	/**
+	 * Creates a new timer when start button is clicked
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(!running) {
+			if(timer == null) {
+				timer = new Timer(1000, new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						i--;
-						if(i>= 0) {
-							timerLabel.setText(""+i);
+						seconds--;
+						if(seconds >= 0) {
+							timerLabel.setText("" + seconds + " seconds left");
+						}
+						if(seconds == 0)
+						{
+							notifyObservers();
+							running = false;
 						}
 					}
 					
 				});
-				t.start();
+				running = true;
+				timer.start();
 			}
-
-			
-		});
-		startButton.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		startButton.setBounds(132, 219, 203, 53);
-		add(startButton);
-
+			else
+			{
+				seconds = initialSeconds;
+				timer.restart();
+			}
+		}
 	}
-
 }
