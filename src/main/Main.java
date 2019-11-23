@@ -11,10 +11,9 @@ public class Main {
 	{
 		JFrame frame = new JFrame("Whack-a-mole");
 		
-		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setPreferredSize(new Dimension((int)screen.getWidth()/ 2, (int)screen.getHeight()/ 2));
-		
+		frame.setPreferredSize(new Dimension(600,600));
+		frame.setResizable(false);
 		frame.setContentPane(new WhackAMoleWidget());
 		frame.pack();
 		frame.setVisible(true);
